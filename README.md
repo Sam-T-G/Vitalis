@@ -2,35 +2,40 @@
 
 This is the main repository for the Vitalis project - a comprehensive application integrating GPT-OSS 20B capabilities.
 
-## 📚 Documentation
+## Documentation
 
 This project includes a comprehensive documentation library to support collaborative development and knowledge sharing:
 
-### 🧠 GPT-OSS 20B Implementation
+### GPT-OSS 20B Implementation
 
 - **[Implementation Guide](docs/gpt-oss-20b/README.md)** - Complete documentation for GPT-OSS 20B integration
 - **[Learning Notes](docs/gpt-oss-20b/learning-notes.md)** - Collaborative learning and discovery process
 - **[Setup Guide](docs/gpt-oss-20b/setup-guide.md)** - Step-by-step installation and configuration
 
-### 🚀 Application Development
+### Application Development
 
 - **[Development Overview](docs/application-development/README.md)** - Comprehensive app development documentation
 - **[Current Implementation](docs/application-development/current-implementation/README.md)** - Active development tracking
 - **[Future Features](docs/application-development/future-features/README.md)** - Planning and roadmap documentation
 
-### 📋 Guidelines & Templates
+### Guidelines & Templates
 
 - **[Documentation Guidelines](docs/guidelines/README.md)** - Standards and best practices
+- **[Coding Standards](docs/guidelines/coding-standards.md)** - Project coding standards and emoji usage policy
 - **[Templates](docs/templates/README.md)** - Reusable documentation templates
 - **[Meeting Notes Template](docs/templates/meeting-notes-template.md)** - Standard meeting documentation
 - **[Feature Documentation Template](docs/templates/feature-documentation-template.md)** - Complete feature documentation
 
-## 🎯 Quick Start
+### Emergency Aid AI Component
+
+- **[Current Considerations](CURRENT_CONSIDERATIONS.md)** - Emergency Aid AI implementation note for collaborators
+
+## Quick Start
 
 ### For New Team Members
 
 1. **Read the Documentation**: Start with the [main documentation index](docs/README.md)
-2. **Explore Structure**: Familiarize yourself with the [documentation organization](docs/README.md#-documentation-structure)
+2. **Explore Structure**: Familiarize yourself with the [documentation organization](docs/README.md#documentation-structure)
 3. **Review Guidelines**: Understand our [documentation standards](docs/guidelines/README.md)
 4. **Begin Contributing**: Use provided [templates](docs/templates/README.md) for consistent documentation
 
@@ -48,7 +53,14 @@ This project includes a comprehensive documentation library to support collabora
 3. **Architecture**: Understand [system design](docs/application-development/architecture/README.md)
 4. **API Docs**: Reference [API documentation](docs/application-development/api-documentation/README.md)
 
-## 🤝 Collaboration
+### For Emergency Aid AI Development
+
+1. **Read Implementation Note**: Start with the [Current Considerations](CURRENT_CONSIDERATIONS.md)
+2. **Understand Pipeline**: Review the knowledge distillation implementation approach
+3. **Follow Standards**: Ensure compliance with [coding standards](docs/guidelines/coding-standards.md)
+4. **Contribute**: Follow the established documentation and development guidelines
+
+## Collaboration
 
 ### Documentation Workflow
 
@@ -63,7 +75,7 @@ This project includes a comprehensive documentation library to support collabora
 - **Meetings**: Include documentation updates in regular team meetings
 - **Reviews**: Use pull request reviews for significant changes
 
-## 🛠️ Development Setup
+## Development Setup
 
 ### Prerequisites
 
@@ -80,21 +92,23 @@ This project includes a comprehensive documentation library to support collabora
 4. **Choose Template**: Use appropriate [template](docs/templates/README.md) for your documentation needs
 5. **Start Contributing**: Create or update documentation as needed
 
-## 📊 Project Status
+## Project Status
 
 ### Current Focus
 
-- **GPT-OSS 20B Integration**: [Status - In Progress/Planning/Completed]
-- **Application Development**: [Status - In Progress/Planning/Completed]
-- **Documentation**: [Status - In Progress/Planning/Completed]
+- **GPT-OSS 20B Integration**: Status - In Progress/Planning/Completed
+- **Application Development**: Status - In Progress/Planning/Completed
+- **Documentation**: Status - In Progress/Planning/Completed
+- **Emergency Aid AI Component**: Status - Planning Phase
 
 ### Recent Updates
 
-- [Date] - [Update description]
-- [Date] - [Update description]
-- [Date] - [Update description]
+- 2025-09-09 - Created Current Considerations with emergency aid AI implementation note for collaborators
+- 2025-09-09 - Established coding standards and no-emoji usage policy
+- 2025-09-09 - Created comprehensive .gitignore for project
+- 2025-09-09 - Updated setup guide with latest GPT-OSS 20B compatibility information
 
-## 🆘 Support
+## Support
 
 ### Documentation Help
 
@@ -108,7 +122,7 @@ This project includes a comprehensive documentation library to support collabora
 - **Infrastructure**: Contact DevOps team
 - **Access Issues**: Contact project administrators
 
-## 📄 License
+## License
 
 This project is licensed under the [LICENSE](LICENSE) file.
 

@@ -579,6 +579,6 @@ Since you've already downloaded the model and encountered MoE compatibility issu
 
 ---
 
-_Last updated: 2025-01-09_  
+_Last updated: 2025-09-09_  
 _Setup verified by: Sam_  
 _Status: Updated with latest GPT-OSS 20B compatibility information and MoE architecture solutions_
