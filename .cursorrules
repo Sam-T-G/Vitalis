@@ -1,0 +1,68 @@
+# Cursor AI Assistant Rules for Vitalis Project
+
+## Emoji Usage Policy
+
+**MANDATORY RULE**: Never use emojis in any Cursor workflows, responses, code, documentation, or project files.
+
+### Scope of Application
+
+This rule applies to:
+
+- All AI assistant responses and interactions
+- All code generation and documentation
+- All terminal command outputs
+- All file creation and editing
+- All project communications
+- All user interface text and messages
+
+### Enforcement
+- All responses must be professional and emoji-free
+- All code comments must use standard ASCII characters
+- All documentation must maintain professional appearance
+- All terminal outputs must be clean and professional
+- All file names and content must exclude emojis
+
+### Examples
+
+**PROHIBITED:**
+
+```
+Great job! ✅
+Error occurred ❌
+Loading... 🔄
+```
+
+**REQUIRED:**
+
+```
+Great job!
+Error occurred
+Loading...
+```
+
+## Project Standards
+
+### Code Quality
+
+- Use clear, descriptive variable and function names
+- Write comprehensive comments without emojis
+- Follow Python PEP 8 standards
+- Maintain consistent formatting
+
+### Documentation
+
+- Use professional language throughout
+- Maintain clear, structured documentation
+- Follow markdown best practices
+- Ensure accessibility and readability
+
+### Communication
+
+- Use professional tone in all interactions
+- Provide clear, actionable instructions
+- Maintain consistency across all responses
+- Focus on technical accuracy and clarity
+
+## Compliance
+
+This rule is mandatory and applies to all Cursor workflows. No exceptions are permitted. All project materials must maintain professional standards without emojis.

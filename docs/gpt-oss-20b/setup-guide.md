@@ -2,7 +2,7 @@
 
 This guide provides step-by-step instructions for setting up GPT-OSS 20B in the Vitalis application environment, updated with the latest best practices and compatibility information.
 
-## 📋 Prerequisites
+## Prerequisites
 
 ### System Requirements
 
@@ -24,7 +24,7 @@ This guide provides step-by-step instructions for setting up GPT-OSS 20B in the 
 - [ ] Hugging Face account with access to GPT-OSS 20B model
 - [ ] Hugging Face personal access token (read permissions)
 
-## 🚀 Installation Steps
+## Installation Steps
 
 ### Step 1: Environment Setup
 
@@ -129,9 +129,9 @@ try:
         low_cpu_mem_usage=True,
         local_files_only=True
     )
-    print("✅ Model loaded successfully with device_map='auto'")
+    print("Model loaded successfully with device_map='auto'")
 except Exception as e:
-    print(f"❌ Strategy 1 failed: {e}")
+    print(f"Strategy 1 failed: {e}")
 
     try:
         # Strategy 2: Without device_map (CPU only)
@@ -141,9 +141,9 @@ except Exception as e:
             low_cpu_mem_usage=True,
             local_files_only=True
         )
-        print("✅ Model loaded successfully without device_map")
+        print("Model loaded successfully without device_map")
     except Exception as e2:
-        print(f"❌ Strategy 2 failed: {e2}")
+        print(f"Strategy 2 failed: {e2}")
         print("Please check the troubleshooting section for MoE compatibility issues")
 EOF
 
@@ -208,7 +208,7 @@ ollama run gpt-oss:20b
 lms get openai/gpt-oss-20b
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -262,7 +262,7 @@ monitoring:
   health_check: "/health"
 ```
 
-## 🔧 Development Setup
+## Development Setup
 
 ### Local Development
 
@@ -326,7 +326,7 @@ pip install locust
 locust -f tests/load_test.py --host=http://localhost:8000
 ```
 
-## 📊 Monitoring Setup
+## Monitoring Setup
 
 ### Application Monitoring
 
@@ -515,7 +515,7 @@ export DEBUG=True
 python manage.py runserver --verbosity=2
 ```
 
-## ✅ Verification
+## Verification
 
 ### Health Checks
 
@@ -542,7 +542,7 @@ python scripts/performance_test.py
 python scripts/resource_monitor.py
 ```
 
-## 📚 Next Steps
+## Next Steps
 
 After successful setup:
 
@@ -563,7 +563,7 @@ Since you've already downloaded the model and encountered MoE compatibility issu
 3. **Medium-term**: Configure production deployment with vLLM
 4. **Long-term**: Integrate with your Vitalis application architecture
 
-## 🆘 Getting Help
+## Getting Help
 
 ### Documentation
 

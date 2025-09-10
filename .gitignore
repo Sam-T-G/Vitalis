@@ -546,3 +546,7 @@ keys/
 
 # Project specific ignores
 # Add any project-specific files or directories to ignore here
+
+# Local-only files (not tracked in repository)
+LOCAL_CODING_STANDARDS.md
+LOCAL_*.md

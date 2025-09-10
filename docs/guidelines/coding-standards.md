@@ -4,7 +4,7 @@
 
 ### Rule: No Emoji Usage in Project Files
 
-**MANDATORY**: This project strictly prohibits the use of emojis in all code, documentation, and project files.
+**MANDATORY**: This project strictly prohibits the use of emojis in all code, documentation, project files, and Cursor workflows.
 
 #### Rationale
 
@@ -24,6 +24,9 @@ This rule applies to:
 - All project files (README, LICENSE, CHANGELOG, etc.)
 - All commit messages and pull request descriptions
 - All comments and inline documentation
+- All Cursor workflows and AI assistant interactions
+- All terminal output and command responses
+- All user interface text and messages
 
 #### Enforcement
 
@@ -31,6 +34,8 @@ This rule applies to:
 - **Linting**: Automated tools will flag emoji usage in code
 - **Documentation**: All documentation must follow this standard
 - **Templates**: All project templates will exclude emojis
+- **AI Assistants**: All Cursor workflows and AI interactions must be emoji-free
+- **Terminal Commands**: All command output and responses must be professional
 
 #### Exceptions
 
@@ -41,12 +46,12 @@ This rule applies to:
 **PROHIBITED:**
 
 ```markdown
-# Project Overview 🚀
+# Project Overview
 
-This is an amazing project! ✨
+This is an amazing project!
 
-- Feature 1 ✅
-- Feature 2 ❌
+- Feature 1 - Completed
+- Feature 2 - In Progress
 ```
 
 **REQUIRED:**
@@ -63,9 +68,9 @@ This is an amazing project!
 **PROHIBITED:**
 
 ```python
-# This function is awesome! 🎉
+# This function is awesome!
 def awesome_function():
-    return "Hello World!"  # Great success! 🎯
+    return "Hello World!"  # Great success!
 ```
 
 **REQUIRED:**
