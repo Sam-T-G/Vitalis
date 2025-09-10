@@ -181,6 +181,14 @@ This document serves as a collaborative space for capturing insights, discoverie
 
 ## 📝 Daily Log
 
+### 2025-09-09 - Sam
+
+**Focus**: Model loading and inference testing  
+**Progress**: Successfully loaded model but encountered critical KeyError during generation  
+**Challenges**: MXFP4 quantization requires GPU, MoE architecture compatibility issues with accelerate library  
+**Tomorrow's Plan**: Investigate alternative loading methods and GPU access for proper quantization  
+**Notes**: Model loads but fails during generation due to missing expert layer weights
+
 ### 2024-01-15 - Sam
 
 **Focus**: Initial GPT-OSS 20B model download and setup  
@@ -210,6 +218,9 @@ _Use this space for quick notes, ideas, or questions that come up during impleme
 
 ### Recent Notes
 
+- 2025-09-09 - Sam: Model loading successful but generation failed with KeyError: 'model.layers.7.mlp.experts.gate_up_proj'
+- 2025-09-09 - Sam: MXFP4 quantization requires GPU, model defaults to bf16 dequantization on CPU
+- 2025-09-09 - Sam: Accelerate library has compatibility issues with GPT-OSS 20B MoE architecture
 - 2024-01-15 - Sam: Successfully completed initial GPT-OSS 20B model download. Model files are now available in ./models/gpt-oss-20b/ directory
 - 2024-01-15 - Sam: Hugging Face CLI authentication worked smoothly with personal access token
 - 2024-01-15 - Sam: Model download took significant time due to large file sizes, but all files downloaded successfully
@@ -219,6 +230,9 @@ _Use this space for quick notes, ideas, or questions that come up during impleme
 - [ ] What are the optimal hardware requirements for running GPT-OSS 20B in production?
 - [ ] How should we handle the large model size in our deployment strategy?
 - [ ] What's the best approach for integrating the chat template with our application?
+- [ ] Do we have access to GPU resources for proper MXFP4 quantization?
+- [ ] Should we investigate alternative MoE model loading strategies?
+- [ ] Is there a different accelerate configuration that works with this model?
 
 ### Ideas for Future Improvements
 

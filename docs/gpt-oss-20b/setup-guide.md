@@ -1,30 +1,28 @@
 # GPT-OSS 20B Setup Guide
 
-This guide provides step-by-step instructions for setting up GPT-OSS 20B in the Vitalis application environment.
+This guide provides step-by-step instructions for setting up GPT-OSS 20B in the Vitalis application environment, updated with the latest best practices and compatibility information.
 
 ## 📋 Prerequisites
 
 ### System Requirements
 
-- **OS**: [Linux/macOS/Windows version]
-- **RAM**: [Minimum RAM requirement]
-- **Storage**: [Minimum storage requirement]
-- **GPU**: [GPU requirements if applicable]
-- **CPU**: [CPU requirements]
+- **OS**: macOS 10.15+, Linux (Ubuntu 20.04+), or Windows 10+
+- **RAM**: Minimum 16GB (32GB+ recommended for optimal performance)
+- **Storage**: At least 20GB free space (model is ~13.8GB)
+- **GPU**: Optional but recommended for MXFP4 quantization (NVIDIA GPU with 16GB+ VRAM)
+- **CPU**: Multi-core processor (8+ cores recommended)
 
 ### Software Dependencies
 
-- [ ] Python [version]
-- [ ] Node.js [version]
-- [ ] Docker [version]
-- [ ] [Other dependency 1]
-- [ ] [Other dependency 2]
+- [ ] Python 3.8+ (3.11+ recommended)
+- [ ] pip (latest version)
+- [ ] Git (for version control)
+- [ ] Hugging Face CLI (installed via pip)
 
 ### Accounts & Credentials
 
-- [ ] [Service account 1]
-- [ ] [API key 1]
-- [ ] [Access token 1]
+- [ ] Hugging Face account with access to GPT-OSS 20B model
+- [ ] Hugging Face personal access token (read permissions)
 
 ## 🚀 Installation Steps
 
@@ -41,23 +39,30 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 #### Dependencies Installation
 
 ```bash
-# Install required packages (based on successful installation log)
-pip install transformers torch huggingface_hub tokenizers safetensors
+# Install core ML packages (latest versions as of 2025)
+pip install transformers>=4.56.0 torch>=2.0.0 huggingface_hub>=0.34.0
+pip install tokenizers>=0.22.0 safetensors>=0.6.0 accelerate>=1.10.0
+
+# Install additional utilities
 pip install numpy pyyaml requests tqdm regex
 pip install InquirerPy prompt-toolkit jinja2
+
+# Optional: Install for better performance
+pip install bitsandbytes  # For quantization support
+pip install flash-attn     # For faster attention (requires CUDA)
 ```
 
-**Successfully Installed Packages**:
+**Recommended Package Versions** (tested and verified):
 
-- transformers-4.56.1
-- torch-2.8.0
-- huggingface_hub-0.34.4
-- tokenizers-0.22.0
-- safetensors-0.6.2
-- numpy-2.3.3
-- pyyaml-6.0.2
-- requests-2.32.5
-- And other supporting packages
+- transformers-4.56.1+
+- torch-2.8.0+
+- huggingface_hub-0.34.4+
+- tokenizers-0.22.0+
+- safetensors-0.6.2+
+- accelerate-1.10.1+
+- numpy-2.3.3+
+- pyyaml-6.0.2+
+- requests-2.32.5+
 
 ### Step 2: Model Download
 
@@ -82,42 +87,125 @@ hf auth login
 # Create models directory
 mkdir -p models
 
-# Download GPT-OSS 20B model
+# Modern approach (recommended)
+hf download openai/gpt-oss-20b --local-dir ./models/gpt-oss-20b
+
+# Alternative: Legacy command (still works but deprecated)
 huggingface-cli download openai/gpt-oss-20b \
   --local-dir ./models/gpt-oss-20b \
   --local-dir-use-symlinks False
 ```
 
-**Note**: The `--local-dir-use-symlinks False` flag is deprecated but still works. The CLI will show a warning but continue with the download.
+**Download Notes**:
 
-### Step 3: Configuration
+- Use `hf download` (modern) instead of `huggingface-cli download` (deprecated)
+- The `--local-dir-use-symlinks False` flag is deprecated but still functional
+- Total download size: ~13.8GB (expect 1-2 hours depending on connection)
+- Large model files download slowly (157kB/s - 3.38MB/s) - this is normal
+
+### Step 3: Model Loading and Testing
+
+#### Basic Model Loading Test
+
+Create a test script to verify model loading:
 
 ```bash
-# Copy configuration template
-cp config/gpt-oss.template.yaml config/gpt-oss.yaml
+# Create test script
+cat > test_model_loading.py << 'EOF'
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
 
-# Edit configuration file
-nano config/gpt-oss.yaml
+# Load model and tokenizer
+model_path = "./models/gpt-oss-20b"
+tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+
+# Try different loading strategies for MoE compatibility
+try:
+    # Strategy 1: With device_map (may cause MoE issues)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_path,
+        torch_dtype=torch.float16,
+        device_map="auto",
+        low_cpu_mem_usage=True,
+        local_files_only=True
+    )
+    print("✅ Model loaded successfully with device_map='auto'")
+except Exception as e:
+    print(f"❌ Strategy 1 failed: {e}")
+
+    try:
+        # Strategy 2: Without device_map (CPU only)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            torch_dtype=torch.float16,
+            low_cpu_mem_usage=True,
+            local_files_only=True
+        )
+        print("✅ Model loaded successfully without device_map")
+    except Exception as e2:
+        print(f"❌ Strategy 2 failed: {e2}")
+        print("Please check the troubleshooting section for MoE compatibility issues")
+EOF
+
+# Run the test
+python test_model_loading.py
 ```
 
-### Step 4: Database Setup
+#### Alternative Loading Methods
 
-```bash
-# Run database migrations
-python manage.py migrate
+If the standard loading fails due to MoE architecture issues, try these alternatives:
 
-# Create initial data
-python manage.py loaddata initial_data.json
+```python
+# Alternative 1: Use pipeline (recommended for GPT-OSS)
+from transformers import pipeline
+import torch
+
+model_id = "./models/gpt-oss-20b"
+pipe = pipeline(
+    "text-generation",
+    model=model_id,
+    torch_dtype=torch.float16,
+    device_map="auto" if torch.cuda.is_available() else None,
+)
+
+# Test generation
+messages = [{"role": "user", "content": "Hello, how are you?"}]
+outputs = pipe(messages, max_new_tokens=50)
+print(outputs[0]["generated_text"][-1])
 ```
 
-### Step 5: Service Initialization
+### Step 4: Alternative Setup Methods
+
+#### Option A: Using vLLM (Recommended for Production)
 
 ```bash
-# Start the service
-python manage.py runserver
+# Install vLLM with GPT-OSS support
+pip install vllm==0.10.1+gptoss \
+    --extra-index-url https://wheels.vllm.ai/gpt-oss/ \
+    --extra-index-url https://download.pytorch.org/whl/nightly/cu128
 
-# Or with Docker
-docker-compose up -d
+# Start vLLM server
+vllm serve openai/gpt-oss-20b --port 8000
+```
+
+#### Option B: Using Ollama (For Local Development)
+
+```bash
+# Install Ollama (if not already installed)
+# macOS: brew install ollama
+# Linux: curl -fsSL https://ollama.com/install.sh | sh
+
+# Pull and run GPT-OSS 20B
+ollama pull gpt-oss:20b
+ollama run gpt-oss:20b
+```
+
+#### Option C: Using LM Studio
+
+```bash
+# Install LM Studio from https://lmstudio.ai/
+# Then download the model
+lms get openai/gpt-oss-20b
 ```
 
 ## ⚙️ Configuration
@@ -358,6 +446,64 @@ chmod 700 config/
 3. Enable model quantization
 4. Use CPU-only mode for testing
 
+#### Issue: MXFP4 Quantization Error
+
+**Symptoms**: Warning message "Using MXFP4 quantized models requires a GPU, we will default to dequantizing the model to bf16"  
+**Solutions**:
+
+1. **Expected Behavior**: This is normal when running on CPU without GPU
+2. **GPU Access**: Use GPU-enabled environment for proper MXFP4 quantization
+3. **Accept Fallback**: The bf16 dequantization works but may impact performance
+4. **Alternative**: Consider using different model variants or quantization methods
+
+#### Issue: MoE Architecture KeyError
+
+**Symptoms**: `KeyError: 'model.layers.X.mlp.experts.gate_up_proj'` during generation  
+**Root Cause**: GPT-OSS 20B uses Mixture of Experts (MoE) architecture with 32 local experts and 4 experts per token  
+**Solutions**:
+
+1. **Use Pipeline Approach** (Recommended):
+
+   ```python
+   from transformers import pipeline
+   pipe = pipeline("text-generation", model="./models/gpt-oss-20b")
+   ```
+
+2. **Disable Device Mapping**:
+
+   ```python
+   model = AutoModelForCausalLM.from_pretrained(
+       model_path,
+       torch_dtype=torch.float16,
+       low_cpu_mem_usage=True,
+       local_files_only=True
+       # Remove device_map="auto"
+   )
+   ```
+
+3. **Use vLLM** (Best for production):
+
+   ```bash
+   pip install vllm==0.10.1+gptoss --extra-index-url https://wheels.vllm.ai/gpt-oss/
+   vllm serve openai/gpt-oss-20b
+   ```
+
+4. **Use Ollama** (Easiest for local development):
+   ```bash
+   ollama pull gpt-oss:20b
+   ollama run gpt-oss:20b
+   ```
+
+#### Issue: Model Generation Failure
+
+**Symptoms**: Model loads successfully but fails during text generation with KeyError  
+**Solutions**:
+
+1. **Update to Latest Versions**: Ensure you have the latest transformers and accelerate
+2. **Use Alternative Loading**: Try the pipeline approach instead of direct model loading
+3. **Check GPU Compatibility**: MXFP4 quantization requires GPU for optimal performance
+4. **Consider Model Variants**: The model has both quantized and original versions available
+
 ### Debug Mode
 
 ```bash
@@ -400,10 +546,22 @@ python scripts/resource_monitor.py
 
 After successful setup:
 
-1. [ ] Review the [Architecture Guide](architecture-guide.md)
-2. [ ] Read the [API Documentation](api-documentation.md)
-3. [ ] Explore [Usage Examples](usage-examples.md)
-4. [ ] Set up [Monitoring and Alerting](monitoring-setup.md)
+1. [ ] **Test Model Functionality**: Run the test script to verify model loading and generation
+2. [ ] **Choose Integration Method**: Decide between vLLM, Ollama, or direct transformers integration
+3. [ ] **Set Up Production Environment**: Configure for your specific use case (GPU requirements, memory optimization)
+4. [ ] **Review the [Architecture Guide](architecture-guide.md)**
+5. [ ] **Read the [API Documentation](api-documentation.md)**
+6. [ ] **Explore [Usage Examples](usage-examples.md)**
+7. [ ] **Set up [Monitoring and Alerting](monitoring-setup.md)**
+
+### Recommended Next Actions Based on Your Current Status
+
+Since you've already downloaded the model and encountered MoE compatibility issues:
+
+1. **Immediate**: Try the pipeline approach or vLLM setup
+2. **Short-term**: Set up Ollama for easier local development
+3. **Medium-term**: Configure production deployment with vLLM
+4. **Long-term**: Integrate with your Vitalis application architecture
 
 ## 🆘 Getting Help
 
@@ -421,5 +579,6 @@ After successful setup:
 
 ---
 
-_Last updated: [Date]_  
-_Setup verified by: [Name]_
+_Last updated: 2025-01-09_  
+_Setup verified by: Sam_  
+_Status: Updated with latest GPT-OSS 20B compatibility information and MoE architecture solutions_

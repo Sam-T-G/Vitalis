@@ -10,6 +10,12 @@ This document tracks the detailed progress of implementing GPT-OSS 20B in the Vi
 **Duration**: ~2 hours  
 **Status**: ✅ Completed
 
+### Phase 2: Model Loading and Testing
+
+**Date**: 2025-09-09  
+**Duration**: ~30 minutes  
+**Status**: ⚠️ Partial Success with Issues
+
 #### Step-by-Step Execution Log
 
 ##### 1. Environment Setup
@@ -135,6 +141,114 @@ huggingface-cli download openai/gpt-oss-20b \
 
 **Result**: ✅ Success - All files downloaded successfully to `./models/gpt-oss-20b/`
 
+#### Step-by-Step Execution Log - Phase 2
+
+##### 7. Additional Dependencies Installation
+
+```bash
+# Install accelerate for device mapping and memory optimization
+pip install accelerate
+```
+
+**Successfully Installed Packages**:
+
+- ✅ accelerate-1.10.1
+- ✅ psutil-7.0.0
+
+**Result**: ✅ Success - Additional packages installed for model optimization
+
+##### 8. Model Loading Script Creation
+
+Created `scripts/hello_transformers.py` with the following configuration:
+
+```python
+from transformers import AutoTokenizer, AutoModelForCausalLM, TextStreamer
+import os
+
+path = "./models/gpt-oss-20b"
+
+tok = AutoTokenizer.from_pretrained(path, local_files_only=True)
+
+model = AutoModelForCausalLM.from_pretrained(
+    path,
+    dtype="auto",              # new arg name (replaces torch_dtype)
+    device_map="auto",         # needs 'accelerate' installed
+    low_cpu_mem_usage=True,
+    local_files_only=True
+)
+
+streamer = TextStreamer(tok)
+prompt = "You are a cautious first-aid helper. An adult has a shallow forearm cut. Give brief, safe first-aid steps only."
+ids = tok.apply_chat_template(
+    [{"role":"user","content":prompt}],
+    add_generation_prompt=True,
+    return_tensors="pt"
+).to(model.device)
+
+_ = model.generate(ids, max_new_tokens=160, temperature=0.2, streamer=streamer)
+```
+
+**Result**: ✅ Success - Script created with proper configuration
+
+##### 9. Model Loading Attempt
+
+```bash
+python scripts/hello_transformers.py
+```
+
+**Loading Process**:
+
+1. **Quantization Warning**: `Using MXFP4 quantized models requires a GPU, we will default to dequantizing the model to bf16`
+2. **Checkpoint Loading**: `Loading checkpoint shards: 100%|███████████████████████████████████████████████| 3/3 [00:13<00:00, 4.59s/it]`
+3. **Memory Offloading**: `Some parameters are on the meta device because they were offloaded to the disk.`
+4. **Attention Mask Warning**: `The attention mask is not set and cannot be inferred from input because pad token is same as eos token.`
+
+**Result**: ⚠️ Partial Success - Model loaded but with warnings and eventual error
+
+##### 10. Model Generation Attempt
+
+The model began generating output:
+
+```
+<|start|>system<|message|>You are ChatGPT, a large language model trained by OpenAI.
+Knowledge cutoff: 2024-06
+Current date: 2025-09-09
+Reasoning: medium
+# Valid channels: analysis, commentary, final. Channel must be included for every message.<|end|><|start|>user<|message|>You are a cautious first-aid helper. An adult has a shallow forearm cut. Give brief, safe first-aid steps
+```
+
+**Result**: ❌ Error - Generation failed with KeyError
+
+##### 11. Error Analysis
+
+**Error Details**:
+
+```
+KeyError: 'model.layers.7.mlp.experts.gate_up_proj'
+```
+
+**Error Location**:
+
+- File: `/Users/sam/Documents/repositories/Vitalis/.venv/lib/python3.13/site-packages/accelerate/utils/offload.py`
+- Line 165: `weight_info = self.index[key]`
+- Function: `__getitem__` in offload utility
+
+**Error Context**:
+
+- The error occurs during model generation when trying to access expert weights
+- Specifically fails when accessing `model.layers.7.mlp.experts.gate_up_proj`
+- This suggests an issue with the model's MoE (Mixture of Experts) architecture
+- The error happens in the accelerate library's offloading mechanism
+
+**Root Cause Analysis**:
+
+1. **Model Architecture Issue**: GPT-OSS 20B uses MoE architecture with expert layers
+2. **Weight Mapping Problem**: The accelerate library cannot find the expected weight key
+3. **Offloading Conflict**: Model parameters are offloaded to disk but weight mapping is incomplete
+4. **Quantization Impact**: MXFP4 quantization may have affected weight naming/structure
+
+**Result**: ❌ Critical Error - Model generation completely fails
+
 ## 📊 Key Metrics and Observations
 
 ### Download Performance
@@ -182,11 +296,25 @@ huggingface-cli download openai/gpt-oss-20b \
 2. **Slow Download Speeds**: Large model files download slowly (expected behavior)
 3. **Command Confusion**: Initial attempt to use `hf whoami` instead of `hf auth whoami`
 
+### ❌ Critical Issues
+
+1. **MXFP4 Quantization Error**: Model requires GPU for quantized weights, defaults to bf16 dequantization
+2. **MoE Architecture Compatibility**: KeyError when accessing expert layer weights (`model.layers.7.mlp.experts.gate_up_proj`)
+3. **Accelerate Offloading Issue**: Weight mapping fails in accelerate library's offload mechanism
+4. **Model Generation Failure**: Complete failure during text generation due to missing weight keys
+
 ### 🔧 Solutions Applied
 
 1. **Deprecation Warnings**: Ignored warnings as commands still function correctly
 2. **Slow Downloads**: Accepted as normal behavior for large model files
 3. **Command Issues**: Used correct modern commands after initial confusion
+
+### 🔧 Solutions Needed (Critical Issues)
+
+1. **GPU Requirement**: Need GPU access for proper MXFP4 quantization support
+2. **MoE Compatibility**: Investigate alternative loading methods for MoE models
+3. **Accelerate Configuration**: Adjust accelerate settings or disable offloading
+4. **Model Loading Strategy**: Consider different loading parameters or model variants
 
 ## 📝 Lessons Learned
 
@@ -196,6 +324,10 @@ huggingface-cli download openai/gpt-oss-20b \
 2. **Download Performance**: Different file types have vastly different download speeds
 3. **CLI Evolution**: Hugging Face CLI commands are evolving (deprecation warnings indicate this)
 4. **Authentication**: Personal access tokens work reliably for model access
+5. **MoE Architecture Complexity**: GPT-OSS 20B uses Mixture of Experts architecture which adds complexity
+6. **Quantization Requirements**: MXFP4 quantization requires GPU support, falls back to bf16 on CPU
+7. **Accelerate Library Issues**: Current accelerate version has compatibility issues with this MoE model
+8. **Memory Management**: Model offloading to disk works but weight mapping fails
 
 ### Process Improvements
 
@@ -207,7 +339,10 @@ huggingface-cli download openai/gpt-oss-20b \
 
 ### Immediate Actions
 
-- [ ] Test model loading and basic inference
+- [x] Test model loading and basic inference (FAILED - KeyError)
+- [ ] Investigate MoE model loading alternatives
+- [ ] Test with GPU access for proper quantization
+- [ ] Try different accelerate configurations
 - [ ] Document hardware requirements based on model size
 - [ ] Create integration tests for model functionality
 - [ ] Set up proper configuration for the Vitalis application
