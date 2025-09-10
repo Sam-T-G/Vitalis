@@ -2,6 +2,13 @@
 
 This section provides comprehensive guidelines for creating, maintaining, and collaborating on documentation within the Vitalis project.
 
+## Contents
+
+### Coding Standards
+
+- **[coding-standards.md](coding-standards.md)** - General coding standards and best practices
+- **[LOCAL_CODING_STANDARDS.md](LOCAL_CODING_STANDARDS.md)** - Local project-specific coding standards and guidelines
+
 ## Table of Contents
 
 - [Writing Standards](#writing-standards)

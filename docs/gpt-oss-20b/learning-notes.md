@@ -2,11 +2,11 @@
 
 This document serves as a collaborative space for capturing insights, discoveries, and learning moments during the GPT-OSS 20B implementation process.
 
-##  Learning Timeline
+## Learning Timeline
 
 ### Week 1: Initial Research
 
-**Date**: 2025-09-9  
+**Date**: 2025-09-09  
 **Contributor**: Sam
 
 #### Key Discoveries
@@ -53,7 +53,7 @@ This document serves as a collaborative space for capturing insights, discoverie
 
 ---
 
-##  Technical Insights
+## Technical Insights
 
 ### Model Architecture Understanding
 
@@ -105,7 +105,7 @@ This document serves as a collaborative space for capturing insights, discoverie
 - **GitHub Issue 1**: [Link] - [Resolution or workaround]
 - **Stack Overflow 1**: [Link] - [Helpful solution]
 
-##  Obstacles & Solutions
+## Obstacles & Solutions
 
 ### Obstacle 1
 
