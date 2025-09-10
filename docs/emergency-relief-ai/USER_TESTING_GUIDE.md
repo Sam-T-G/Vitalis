@@ -4,7 +4,7 @@ This guide shows you how to test your Emergency Relief AI model as real users wo
 
 ## Testing Options
 
-### 1. 🎯 Quick Health Check (Start Here)
+### 1. Quick Health Check (Start Here)
 
 **Best for**: Verifying the model is working correctly
 
@@ -23,7 +23,7 @@ python scripts/quick_model_diagnostic.py
 
 ---
 
-### 2. 💬 Interactive Chat Assistant (Recommended)
+### 2. Interactive Chat Assistant (Recommended)
 
 **Best for**: Natural conversation testing with the AI
 
@@ -54,7 +54,7 @@ python scripts/interactive_emergency_assistant.py
 
 ---
 
-### 3. 🧪 Comprehensive Scenario Testing
+### 3. Comprehensive Scenario Testing
 
 **Best for**: Evaluating AI performance across realistic emergencies
 
@@ -133,7 +133,7 @@ Use these for comprehensive testing:
 
 ## What to Look For
 
-### ✅ Good Emergency Response Should Include:
+### Good Emergency Response Should Include:
 
 - **Immediate action steps** (numbered or bulleted)
 - **Safety prioritization** (life safety first)
@@ -142,7 +142,7 @@ Use these for comprehensive testing:
 - **Timeline awareness** (immediate vs. ongoing actions)
 - **Specific emergency terminology**
 
-### ❌ Red Flags to Watch For:
+### Red Flags to Watch For:
 
 - Vague or generic advice
 - No mention of safety protocols
@@ -219,11 +219,11 @@ Test strategic planning:
 
 Your Emergency Relief AI is ready for deployment if:
 
-✅ **Technical**: Model loads and responds consistently  
-✅ **Quality**: Average scenario scores 6+ out of 10  
-✅ **Usability**: Users can get actionable emergency guidance  
-✅ **Safety**: Responses prioritize life safety and established protocols  
-✅ **Practicality**: Guidance is specific and implementable
+**Technical**: Model loads and responds consistently  
+**Quality**: Average scenario scores 6+ out of 10  
+**Usability**: Users can get actionable emergency guidance  
+**Safety**: Responses prioritize life safety and established protocols  
+**Practicality**: Guidance is specific and implementable
 
 ## Next Steps
 
@@ -243,4 +243,3 @@ For issues during user testing:
 - **Performance optimization**: See `model-inference-recommendations.md`
 
 **Remember**: Your Emergency Relief AI is technically working correctly. Any limitations are primarily due to CPU performance, not model functionality.
-

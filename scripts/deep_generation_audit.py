@@ -123,12 +123,12 @@ class DeepGenerationAuditor:
             # Set to eval mode
             self.model.eval()
             
-            print("\n✅ Model loading completed successfully!")
+            print("\nSUCCESS: Model loading completed successfully!")
             self.loaded = True
             return True
             
         except Exception as e:
-            print(f"❌ Model loading failed: {e}")
+            print(f"ERROR: Model loading failed: {e}")
             return False
     
     def test_tokenization(self):
@@ -163,7 +163,7 @@ class DeepGenerationAuditor:
                 print(f"   - Decode matches: {decoded.strip() == text.strip()}")
                 
             except Exception as e:
-                print(f"   ❌ Tokenization failed: {e}")
+                print(f"   ERROR: Tokenization failed: {e}")
     
     def test_forward_pass(self):
         """Test model forward pass"""
@@ -172,7 +172,7 @@ class DeepGenerationAuditor:
         print("=" * 60)
         
         if not self.loaded:
-            print("❌ Model not loaded")
+            print("ERROR: Model not loaded")
             return
         
         test_text = "Emergency evacuation"
@@ -195,7 +195,7 @@ class DeepGenerationAuditor:
             forward_time = time.time() - start_time
             end_memory = self.get_memory_usage()
             
-            print(f"✅ Forward pass successful!")
+            print(f"SUCCESS: Forward pass successful!")
             print(f"   - Output shape: {logits.shape}")
             print(f"   - Time: {forward_time:.3f}s")
             print(f"   - Memory change: +{end_memory - start_memory:.0f}MB")
@@ -209,7 +209,7 @@ class DeepGenerationAuditor:
             return True
             
         except Exception as e:
-            print(f"❌ Forward pass failed: {e}")
+            print(f"ERROR: Forward pass failed: {e}")
             return False
     
     def test_incremental_generation(self):
@@ -219,14 +219,14 @@ class DeepGenerationAuditor:
         print("=" * 60)
         
         if not self.loaded:
-            print("❌ Model not loaded")
+            print("ERROR: Model not loaded")
             return
         
         test_text = "Emergency evacuation"
         token_counts = [1, 2, 3, 5, 10]
         
         for max_tokens in token_counts:
-            print(f"\n🧪 Testing generation with {max_tokens} tokens...")
+            print(f"\nTesting generation with {max_tokens} tokens...")
             
             try:
                 inputs = self.tokenizer(test_text, return_tensors="pt")
@@ -266,7 +266,7 @@ class DeepGenerationAuditor:
                 end_memory = self.get_memory_usage()
                 
                 if thread.is_alive():
-                    print(f"   ❌ TIMEOUT after {timeout_seconds}s")
+                    print(f"   TIMEOUT after {timeout_seconds}s")
                     print(f"   - This is where the problem occurs!")
                     return False
                 else:
@@ -276,22 +276,22 @@ class DeepGenerationAuditor:
                             generated_text = self.tokenizer.decode(result[0], skip_special_tokens=True)
                             new_text = generated_text[len(test_text):].strip()
                             
-                            print(f"   ✅ SUCCESS in {generation_time:.3f}s")
+                            print(f"   SUCCESS in {generation_time:.3f}s")
                             print(f"   - Generated: '{new_text}'")
                             print(f"   - Memory change: +{end_memory - start_memory:.0f}MB")
                             print(f"   - Output length: {result[0].shape[1]} tokens")
                         else:
-                            print(f"   ❌ Generation error: {result}")
+                            print(f"   ERROR: Generation error: {result}")
                             return False
                     except queue.Empty:
-                        print(f"   ❌ No result returned")
+                        print(f"   ERROR: No result returned")
                         return False
                         
             except Exception as e:
-                print(f"   ❌ Test setup failed: {e}")
+                print(f"   ERROR: Test setup failed: {e}")
                 return False
         
-        print("\n✅ All incremental generation tests passed!")
+        print("\nSUCCESS: All incremental generation tests passed!")
         return True
     
     def test_generation_strategies(self):
@@ -301,7 +301,7 @@ class DeepGenerationAuditor:
         print("=" * 60)
         
         if not self.loaded:
-            print("❌ Model not loaded")
+            print("ERROR: Model not loaded")
             return
         
         test_text = "Emergency evacuation"
@@ -344,7 +344,7 @@ class DeepGenerationAuditor:
         ]
         
         for strategy in strategies:
-            print(f"\n🧪 Testing: {strategy['name']}")
+            print(f"\nTesting: {strategy['name']}")
             
             try:
                 inputs = self.tokenizer(test_text, return_tensors="pt")
@@ -378,22 +378,22 @@ class DeepGenerationAuditor:
                 generation_time = time.time() - start_time
                 
                 if thread.is_alive():
-                    print(f"   ❌ TIMEOUT after 10s")
+                    print(f"   TIMEOUT after 10s")
                 else:
                     try:
                         result_type, result = result_queue.get_nowait()
                         if result_type == 'success':
                             generated_text = self.tokenizer.decode(result[0], skip_special_tokens=True)
                             new_text = generated_text[len(test_text):].strip()
-                            print(f"   ✅ SUCCESS in {generation_time:.3f}s")
+                            print(f"   SUCCESS in {generation_time:.3f}s")
                             print(f"   - Generated: '{new_text}'")
                         else:
-                            print(f"   ❌ Error: {result}")
+                            print(f"   ERROR: {result}")
                     except queue.Empty:
-                        print(f"   ❌ No result")
+                        print(f"   ERROR: No result")
                         
             except Exception as e:
-                print(f"   ❌ Setup failed: {e}")
+                print(f"   ERROR: Setup failed: {e}")
     
     def test_minimal_generation(self):
         """Test the most minimal generation possible"""
@@ -402,7 +402,7 @@ class DeepGenerationAuditor:
         print("=" * 60)
         
         if not self.loaded:
-            print("❌ Model not loaded")
+            print("ERROR: Model not loaded")
             return
         
         print("Testing absolute minimal generation...")
@@ -429,7 +429,7 @@ class DeepGenerationAuditor:
             
             generation_time = time.time() - start_time
             
-            print(f"✅ Minimal generation successful in {generation_time:.3f}s")
+            print(f"SUCCESS: Minimal generation successful in {generation_time:.3f}s")
             print(f"Output: {outputs}")
             print(f"Output shape: {outputs.shape}")
             
@@ -440,7 +440,7 @@ class DeepGenerationAuditor:
             return True
             
         except Exception as e:
-            print(f"❌ Minimal generation failed: {e}")
+            print(f"ERROR: Minimal generation failed: {e}")
             return False
     
     def run_full_audit(self):
@@ -451,7 +451,7 @@ class DeepGenerationAuditor:
         
         # Step 1: Load model
         if not self.load_model():
-            print("❌ Audit failed: Cannot load model")
+            print("ERROR: Audit failed: Cannot load model")
             return False
         
         # Step 2: Test tokenization
@@ -459,17 +459,17 @@ class DeepGenerationAuditor:
         
         # Step 3: Test forward pass
         if not self.test_forward_pass():
-            print("❌ Audit failed: Forward pass issues")
+            print("ERROR: Audit failed: Forward pass issues")
             return False
         
         # Step 4: Test minimal generation
         if not self.test_minimal_generation():
-            print("❌ Audit failed: Even minimal generation fails")
+            print("ERROR: Audit failed: Even minimal generation fails")
             return False
         
         # Step 5: Test incremental generation
         if not self.test_incremental_generation():
-            print("❌ Found the problem in incremental generation!")
+            print("ERROR: Found the problem in incremental generation!")
             return False
         
         # Step 6: Test different strategies

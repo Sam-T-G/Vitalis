@@ -329,25 +329,25 @@ def index():
 </head>
 <body>
     <div class="container">
-        <h1>🚨 Emergency Relief AI</h1>
+        <h1>Emergency Relief AI</h1>
         <p class="subtitle">Test the AI assistant for emergency response guidance</p>
         
         <div class="examples">
             <h3>Example Emergency Scenarios (Click to use):</h3>
             <div class="example-item" onclick="setExample('A wildfire is approaching our neighborhood. We have 2 hours to evacuate. What should we do first?')">
-                🔥 Wildfire evacuation with 2 hours notice
+                Wildfire evacuation with 2 hours notice
             </div>
             <div class="example-item" onclick="setExample('Our town is flooding rapidly. 50 people are trapped in a school building. How do we coordinate rescue?')">
-                🌊 Flood rescue coordination
+                Flood rescue coordination
             </div>
             <div class="example-item" onclick="setExample('Major earthquake just hit. Multiple buildings collapsed. Communication is down. What are our priorities?')">
-                🏢 Earthquake emergency response
+                Earthquake emergency response
             </div>
             <div class="example-item" onclick="setExample('Bus accident with 25 injured people. Local hospital is overwhelmed. What is the triage protocol?')">
-                🚑 Mass casualty triage
+                Mass casualty triage
             </div>
             <div class="example-item" onclick="setExample('Chemical spill on highway near school. Unknown substance leaking. 200 people need evacuation. What steps do we take?')">
-                ☣️ Hazmat emergency response
+                Hazmat emergency response
             </div>
         </div>
         
@@ -386,7 +386,7 @@ def index():
             submitBtn.disabled = true;
             submitBtn.textContent = 'Generating Emergency Guidance...';
             responseSection.style.display = 'block';
-            responseText.innerHTML = '<div class="loading">🔄 Analyzing emergency situation and generating response...</div>';
+            responseText.innerHTML = '<div class="loading">Analyzing emergency situation and generating response...</div>';
             responseMeta.innerHTML = '';
             
             try {

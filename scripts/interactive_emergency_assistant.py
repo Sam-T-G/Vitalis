@@ -199,7 +199,7 @@ class EmergencyReliefAssistant:
         while True:
             try:
                 # Get user input
-                user_input = input("🚨 Emergency Question: ").strip()
+                user_input = input("Emergency Question: ").strip()
                 
                 if not user_input:
                     continue
