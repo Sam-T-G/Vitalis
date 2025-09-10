@@ -2,7 +2,7 @@
 
 This document serves as a collaborative space for capturing insights, discoveries, and learning moments during the GPT-OSS 20B implementation process.
 
-## 📅 Learning Timeline
+##  Learning Timeline
 
 ### Week 1: Initial Research
 
@@ -53,7 +53,7 @@ This document serves as a collaborative space for capturing insights, discoverie
 
 ---
 
-## 🧠 Technical Insights
+##  Technical Insights
 
 ### Model Architecture Understanding
 
@@ -105,7 +105,7 @@ This document serves as a collaborative space for capturing insights, discoverie
 - **GitHub Issue 1**: [Link] - [Resolution or workaround]
 - **Stack Overflow 1**: [Link] - [Helpful solution]
 
-## 🚧 Obstacles & Solutions
+##  Obstacles & Solutions
 
 ### Obstacle 1
 
@@ -165,7 +165,7 @@ This document serves as a collaborative space for capturing insights, discoverie
 - [ ] [Goal 2 with success criteria]
 - [ ] [Goal 3 with success criteria]
 
-## 🤔 Open Questions
+## QUESTION Open Questions
 
 ### Technical Questions
 
@@ -205,7 +205,7 @@ This document serves as a collaborative space for capturing insights, discoverie
 **Tomorrow's Plan**: [What to work on next]  
 **Notes**: [Any additional thoughts or observations]
 
-## 🔗 Related Documentation
+## LINK Related Documentation
 
 - [Setup Guide](setup-guide.md)
 - [Architecture Decisions](architecture-decisions.md)

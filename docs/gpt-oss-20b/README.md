@@ -2,7 +2,7 @@
 
 This section contains comprehensive documentation for implementing GPT-OSS 20B within the Vitalis application. This is a collaborative space for tracking the learning process, setup procedures, architectural decisions, and implementation details.
 
-## 📖 Table of Contents
+## MANUAL Table of Contents
 
 - [Overview](#overview)
 - [Learning Process](#learning-process)
@@ -238,7 +238,7 @@ For detailed step-by-step progress tracking, see the [Implementation Progress Lo
 - Lessons learned and best practices
 - Next steps and future planning
 
-## 🔗 Related Documentation
+## LINK Related Documentation
 
 - [Setup Guide](setup-guide.md)
 - [Learning Notes](learning-notes.md)

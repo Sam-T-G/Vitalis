@@ -90,7 +90,7 @@ For specific use cases and advanced scenarios:
 - Research Notes
 - Release Notes
 
-## 🔄 Template Maintenance
+## PROCESSING Template Maintenance
 
 ### Regular Updates
 

@@ -2,7 +2,7 @@
 
 This document tracks the detailed progress of implementing GPT-OSS 20B in the Vitalis application, including step-by-step logs, successes, challenges, and lessons learned.
 
-## 📅 Implementation Timeline
+##  Implementation Timeline
 
 ### Phase 1: Initial Setup and Model Download
 
@@ -288,7 +288,7 @@ KeyError: 'model.layers.7.mlp.experts.gate_up_proj'
 - All configuration and tokenizer files downloaded successfully
 - Model ready for integration testing
 
-## 🚧 Challenges Encountered
+##  Challenges Encountered
 
 ### Minor Issues
 

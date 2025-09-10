@@ -80,7 +80,7 @@ application-development/
 - [Integration Guides](api-documentation/integration-guides/README.md) - Third-party integrations
 - [Examples](api-documentation/examples/README.md) - Code examples
 
-## 🔄 Development Workflow
+## PROCESSING Development Workflow
 
 ### Daily Development Process
 

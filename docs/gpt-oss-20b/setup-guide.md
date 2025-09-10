@@ -291,7 +291,7 @@ docker build -f Dockerfile.dev -t vitalis-gpt-oss:dev .
 docker run -p 8000:8000 -v $(pwd):/app vitalis-gpt-oss:dev
 ```
 
-## 🧪 Testing Setup
+## TEST Testing Setup
 
 ### Unit Tests
 
@@ -354,7 +354,7 @@ LOGGING = {
 }
 ```
 
-## 🔒 Security Configuration
+##  Security Configuration
 
 ### API Security
 
@@ -387,7 +387,7 @@ chmod 600 config/sensitive.enc
 chmod 700 config/
 ```
 
-## 🚨 Troubleshooting
+## ALERT Troubleshooting
 
 ### Common Setup Issues
 
