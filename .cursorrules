@@ -16,6 +16,7 @@ This rule applies to:
 - All user interface text and messages
 
 ### Enforcement
+
 - All responses must be professional and emoji-free
 - All code comments must use standard ASCII characters
 - All documentation must maintain professional appearance
